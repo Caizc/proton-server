@@ -1,7 +1,36 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Proton Server</display-name>
+
+    <!-- log4j Configuration Location -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:conf/log/log4j.properties</param-value>
+    </context-param>
+
+    <!-- ApplicationContext Configuration Location -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:conf/spring/applicationContext.xml</param-value>
+    </context-param>
+
+    <!-- log4j Listener -->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <!-- Spring Listener -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- Welcome List -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
