@@ -22,6 +22,11 @@
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
+    <!-- Proxool Listener -->
+    <listener>
+        <listener-class>com.zicongcai.thirdparty.proxool.ProxoolListener</listener-class>
+    </listener>
+
     <!-- Spring Listener -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

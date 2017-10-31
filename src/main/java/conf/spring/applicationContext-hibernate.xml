@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Proxool连接池配置 -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>org.logicalcobwebs.proxool.ProxoolDriver</value>
+        </property>
+        <property name="url">
+            <value>proxool.default</value>
+        </property>
+    </bean>
+
+    <!-- SessionFactory -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.zicongcai.persistence.po"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置事务管理 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- 配置注解实现管理事务（cglib：proxy-target-class="true"） -->
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <!-- 指定使用cglib -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- 配置事务的传播特性 -->
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="add*"/>
+            <tx:method name="edit*"/>
+            <tx:method name="remove*"/>
+            <tx:method name="save*"/>
+            <tx:method name="update*"/>
+            <tx:method name="delete*"/>
+            <tx:method name="batchUpdate"/>
+            <tx:method name="get*"/>
+            <tx:method name="find*"/>
+            <tx:method name="search*"/>
+            <tx:method name="count*"/>
+            <tx:method name="is*"/>
+            <tx:method name="refresh*"/>
+            <tx:method name="flush*"/>
+            <tx:method name="*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置事务的切入点 -->
+    <aop:config>
+        <aop:pointcut id="targetMethod"
+                      expression="execution(* com.zicongcai.persistence.dao.BaseDao.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="targetMethod"/>
+    </aop:config>
+
+    <bean name="baseDAO" abstract="true">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+</beans>
