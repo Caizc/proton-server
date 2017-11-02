@@ -1,7 +1,6 @@
 package com.zicongcai.core;
 
 import com.google.common.primitives.Bytes;
-import com.google.common.primitives.Ints;
 import com.zicongcai.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -66,7 +65,7 @@ public class ProtocolBytes extends Protocol {
     public void addString(String str) {
 
         int len = str.length();
-        byte[] lenBytes = Ints.toByteArray(len);
+        byte[] lenBytes = ByteUtils.int2ByteArray(len);
 
         byte[] strBytes = null;
         try {
@@ -75,8 +74,11 @@ public class ProtocolBytes extends Protocol {
             log.error("Error occur when encoding byte array from String", e);
         }
 
-        // TODO: bytes == null 时可能出错？
-        bytes = Bytes.concat(bytes, lenBytes, strBytes);
+        if (bytes == null) {
+            bytes = Bytes.concat(lenBytes, strBytes);
+        } else {
+            bytes = Bytes.concat(bytes, lenBytes, strBytes);
+        }
     }
 
     public String getString(int start, int[] end) {
@@ -113,10 +115,13 @@ public class ProtocolBytes extends Protocol {
 
     public void addInt(int num) {
 
-        byte[] numBytes = Ints.toByteArray(num);
+        byte[] numBytes = ByteUtils.int2ByteArray(num);
 
-        // TODO: bytes == null 时可能出错？
-        bytes = Bytes.concat(bytes, numBytes);
+        if (bytes == null) {
+            bytes = numBytes;
+        } else {
+            bytes = Bytes.concat(bytes, numBytes);
+        }
     }
 
     public int getInt(int start, int[] end) {

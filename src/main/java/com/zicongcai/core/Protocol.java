@@ -1,5 +1,8 @@
 package com.zicongcai.core;
 
+import com.google.common.primitives.Bytes;
+import com.zicongcai.util.ByteUtils;
+
 /**
  * 协议基类
  */
@@ -24,6 +27,20 @@ public class Protocol {
      */
     public byte[] encode() {
         return new byte[]{};
+    }
+
+    /**
+     * 打包成协议消息包（在编码后的字节数组添加一个4字节的int，描述消息的总长度）
+     *
+     * @return 消息包的字节数组
+     */
+    public byte[] pack() {
+
+        byte[] msgBytes = encode();
+        byte[] lenBytes = ByteUtils.int2ByteArray(msgBytes.length);
+        byte[] data = Bytes.concat(lenBytes, msgBytes);
+
+        return data;
     }
 
     /**

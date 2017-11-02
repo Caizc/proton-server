@@ -11,11 +11,16 @@ import java.net.Socket;
 import java.util.concurrent.Callable;
 
 /**
- * 处理接收到的客户端 Socket 连接
+ * 处理接收到的客户端Socket连接
  */
 public class SocketHandler implements Callable<Object> {
 
     private static final Log log = LogFactory.getLog(SocketHandler.class);
+
+    /**
+     * 一个Socket连接对应一个客户端连接实例
+     */
+    private Connection conn;
 
     private Socket socket;
     private DataInputStream dataInputStream;
@@ -27,25 +32,19 @@ public class SocketHandler implements Callable<Object> {
     /**
      * 构造方法
      *
-     * @param socket 接收到的客户端 Socket 连接
+     * @param socket 接收到的客户端Socket连接
      */
     public SocketHandler(Socket socket) {
 
-        this.socket = socket;
-
-        try {
-            this.dataInputStream = new DataInputStream(socket.getInputStream());
-            this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            log.error("DataInputStream/DataOutputStream error!", e);
-        }
+        // 构造客户端连接实例
+        this.conn = new Connection(socket);
+        this.socket = conn.getSocket();
+        this.dataInputStream = conn.getDataInputStream();
+        this.dataOutputStream = conn.getDataOutputStream();
     }
 
     @Override
     public Object call() {
-
-        // 构造客户端连接实例
-        Connection conn = new Connection(socket);
 
         log.warn("=== Got a new Connection from: " + conn.getClientName());
 
@@ -67,6 +66,7 @@ public class SocketHandler implements Callable<Object> {
 
             } catch (Exception e) {
                 log.error("There was an error occur!", e);
+                break;
             }
         }
 
@@ -117,12 +117,9 @@ public class SocketHandler implements Callable<Object> {
      */
     private void handleMessage(Connection conn, Protocol msgProto) {
 
-        String name = msgProto.getName();
-        String methodName = "Msg" + name;
-
-        log.info("=== " + methodName);
+        String msgType = msgProto.getName();
 
         // 将消息传递给相应的消息处理类
-        MessageDispatcher.getInstance().deliverMessage(name, conn, msgProto);
+        MessageDispatcher.getInstance().deliverMessage(msgType, conn, msgProto);
     }
 }

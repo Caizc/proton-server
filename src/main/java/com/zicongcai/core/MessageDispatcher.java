@@ -1,9 +1,9 @@
 package com.zicongcai.core;
 
 import com.zicongcai.logic.*;
-import com.zicongcai.thirdparty.SpringContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 
 /**
  * 消息分发器
@@ -58,8 +58,25 @@ public class MessageDispatcher {
 
         // TODO: 为简单起见，暂时使用 Switch 语句实现消息分发，后续改为监听者模式会更好一些
 
-        DataManager dataManager = SpringContextHolder.getBean("dataManager");
-        dataManager.test();
+        switch (msgType) {
+
+            case MessageType.MSG_PING:
+//                battleMessageHandler.pingMsg(conn, proto);
+                break;
+
+            case MessageType.MSG_HEARTBEAT:
+                connectionMessageHandler.heartBeatMsg(conn, proto);
+                break;
+
+            case MessageType.MSG_REGISTER:
+                connectionMessageHandler.registerMsg(conn, proto);
+                break;
+
+            default:
+                log.info("=== " + msgType);
+                break;
+        }
+
     }
 
 }
