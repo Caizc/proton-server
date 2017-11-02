@@ -80,7 +80,11 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="targetMethod"/>
     </aop:config>
 
-    <bean name="baseDAO" abstract="true">
+    <!-- 配置DAO类的sessionFactory -->
+    <bean name="userDao" class="com.zicongcai.persistence.dao.UserDao">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean name="playerDao" class="com.zicongcai.persistence.dao.PlayerDao">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
 </beans>

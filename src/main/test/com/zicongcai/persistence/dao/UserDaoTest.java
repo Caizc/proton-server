@@ -3,27 +3,37 @@ package com.zicongcai.persistence.dao;
 import com.googlecode.genericdao.search.Search;
 import com.zicongcai.persistence.po.UserPo;
 import com.zicongcai.thirdparty.JUnit4ClassRunner;
+import com.zicongcai.thirdparty.SpringContextHolder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
 @RunWith(JUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:conf/spring/applicationContext.xml"})
 public class UserDaoTest {
 
-    @Resource(name = "userDao")
+    @Autowired
     private UserDao userDao;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        PropertyConfigurator.configure("src/conf/hibernate/proxool.properties");
+
+        String classPath = JUnit4ClassRunner.class.getClassLoader().getResource("").getPath();
+        String configDir = classPath + "conf" + File.separator;
+
+        // proxool配置文件路径
+        String proxoolPropertiesPath = configDir + "hibernate" + File.separator + "proxool.properties";
+
+        PropertyConfigurator.configure(proxoolPropertiesPath);
     }
 
     @Before
@@ -39,15 +49,13 @@ public class UserDaoTest {
     @Test
     public void test() {
 
-        // FIXME: 该测试用例初始化过程出错
-
         Search search = new Search();
         search.addFilterEqual("id", "abc");
 
         List<UserPo> list = userDao.search(search);
 
         if (list == null || list.size() == 0) {
-            System.out.println("Get nothing!");
+            System.out.println("Got nothing!");
         } else {
             for (UserPo userPo : list) {
                 System.out.println(userPo.toString());
