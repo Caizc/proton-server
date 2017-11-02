@@ -3,7 +3,6 @@ package com.zicongcai.persistence.dao;
 import com.googlecode.genericdao.search.Search;
 import com.zicongcai.persistence.po.UserPo;
 import com.zicongcai.thirdparty.JUnit4ClassRunner;
-import com.zicongcai.thirdparty.SpringContextHolder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -13,8 +12,6 @@ import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.annotation.Resource;
-import java.io.File;
 import java.util.List;
 
 @RunWith(JUnit4ClassRunner.class)
@@ -26,14 +23,8 @@ public class UserDaoTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-
         String classPath = JUnit4ClassRunner.class.getClassLoader().getResource("").getPath();
-        String configDir = classPath + "conf" + File.separator;
-
-        // proxool配置文件路径
-        String proxoolPropertiesPath = configDir + "hibernate" + File.separator + "proxool.properties";
-
-        PropertyConfigurator.configure(proxoolPropertiesPath);
+        PropertyConfigurator.configure(classPath + "/conf/hibernate/proxool.properties");
     }
 
     @Before

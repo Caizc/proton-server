@@ -1,22 +1,68 @@
 package com.zicongcai.core;
 
-import com.google.common.base.CharMatcher;
+import com.zicongcai.logic.PlayerData;
+import com.zicongcai.thirdparty.JUnit4ClassRunner;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
+@RunWith(JUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:conf/spring/applicationContext.xml"})
 public class DataManagerTest {
 
-    public static void main(String[] args) {
+    @Autowired
+    private DataManager dataManager;
 
-        String str1 = "Helloworld";
-        String str2 = "h12;";
-        String str3 = "@er3";
-
-        System.out.println(isSafeStr(str1));
-        System.out.println(isSafeStr(str2));
-        System.out.println(isSafeStr(str3));
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        String classPath = JUnit4ClassRunner.class.getClassLoader().getResource("").getPath();
+        PropertyConfigurator.configure(classPath + "/conf/hibernate/proxool.properties");
     }
 
-    private static boolean isSafeStr(String str) {
-        String result = CharMatcher.javaLetterOrDigit().retainFrom(str);
-        return str.equals(result);
+    @Before
+    public void setUp() throws Exception {
+        System.out.println("------------- 测试开始 -------------");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        System.out.println("------------- 测试结束 -------------");
+    }
+
+    public void registerTest() {
+        dataManager.register("guest2", "guest2");
+    }
+
+    public void createPlayerTest() {
+        dataManager.createPlayer("guest");
+    }
+
+
+    public void checkPasswordTest() {
+        dataManager.checkPassword("guest", "guest");
+    }
+
+    @Test
+    public void getPlayerDataTest() {
+
+        PlayerData playerData = dataManager.getPlayerData("guest");
+        System.out.println(playerData.score);
+    }
+
+    public void savePlayerTest() {
+
+        Player player = new Player();
+        PlayerData playerData = new PlayerData();
+        playerData.score = 101;
+
+        player.setId("guest");
+        player.setData(playerData);
+
+        dataManager.savePlayer(player);
     }
 }

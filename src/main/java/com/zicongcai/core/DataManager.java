@@ -9,9 +9,9 @@ import com.zicongcai.persistence.po.PlayerPo;
 import com.zicongcai.persistence.po.UserPo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -26,10 +26,10 @@ public class DataManager {
 
     private static final Log log = LogFactory.getLog(DataManager.class);
 
-    @Resource(name = "userDao")
+    @Autowired
     private UserDao userDao;
 
-    @Resource(name = "playerDao")
+    @Autowired
     private PlayerDao playerDao;
 
     /**
@@ -39,6 +39,11 @@ public class DataManager {
      * @return
      */
     private boolean isSafeStr(String str) {
+
+        // 不允许空字符串
+        if (str == null || str.length() == 0) {
+            return false;
+        }
 
         // 仅允许字符串为字母和数字的组合
         String result = CharMatcher.javaLetterOrDigit().retainFrom(str);
@@ -98,6 +103,8 @@ public class DataManager {
         userDao.save(userPo);
         userDao.flush();
 
+        log.info("用户[" + id + "]注册成功");
+
         return true;
     }
 
@@ -123,6 +130,8 @@ public class DataManager {
 
         playerDao.save(playerPo);
         playerDao.flush();
+
+        log.info("用户[" + id + "]创建角色成功");
 
         return true;
     }
@@ -151,6 +160,7 @@ public class DataManager {
             log.error("用户ID[" + id + "]不存在或错误的密码！");
             return false;
         } else {
+            log.info("用户ID[" + id + "]密码校验通过");
             return true;
         }
     }
@@ -209,6 +219,8 @@ public class DataManager {
         playerDao.save(playerPo);
         playerDao.flush();
 
+        log.info("用户[" + id + "]的角色数据已保存");
+
         return true;
     }
 
@@ -255,21 +267,5 @@ public class DataManager {
         }
 
         return null;
-    }
-
-    public void test() {
-
-        Search search = new Search();
-        search.addFilterEqual("id", "abc");
-
-        List<UserPo> list = userDao.search(search);
-
-        if (list == null || list.size() == 0) {
-            System.out.println("Got nothing!");
-        } else {
-            for (UserPo userPo : list) {
-                System.out.println(userPo.toString());
-            }
-        }
     }
 }
