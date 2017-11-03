@@ -17,7 +17,7 @@ public class BattleMessageHandler {
      */
     public void ping(Connection conn, Protocol proto) {
         // TODO:
-        log.info("[Ping] " + conn.getClientName());
+//        log.info("[Ping] " + conn.getClientName());
     }
 
 }

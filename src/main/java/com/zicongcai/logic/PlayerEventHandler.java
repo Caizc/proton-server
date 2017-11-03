@@ -37,9 +37,9 @@ public class PlayerEventHandler {
      */
     public boolean logout(Player player) {
 
-        // TODO: 触发登出事件
+        // TODO: 处理登出事件，如退出房间、结束战斗等
 
-        // 先保存角色数据
+        // 保存角色数据
         if (!dataManager.savePlayer(player)) {
             return false;
         }

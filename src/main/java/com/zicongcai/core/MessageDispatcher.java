@@ -60,7 +60,7 @@ public class MessageDispatcher {
         switch (msgType) {
 
             case MessageType.MSG_PING:
-//                battleMessageHandler.ping(conn, proto);
+                battleMessageHandler.ping(conn, proto);
                 break;
 
             case MessageType.MSG_HEARTBEAT:
@@ -77,6 +77,26 @@ public class MessageDispatcher {
 
             case MessageType.MSG_LOGOUT:
                 connectionMessageHandler.logout(conn, proto);
+                break;
+
+            case MessageType.MSG_GETACHIEVE:
+                playerMessageHandler.getAchieve(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_GETLIST:
+                playerMessageHandler.getList(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_GETSCORE:
+                playerMessageHandler.getScore(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_ADDSCORE:
+                playerMessageHandler.addScore(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_UPDATEINFO:
+                playerMessageHandler.updateInfo(conn.getPlayer(), proto);
                 break;
 
             default:
