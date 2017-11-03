@@ -46,7 +46,7 @@ public class SocketHandler implements Callable<Object> {
     @Override
     public Object call() {
 
-        log.warn("=== Got a new Connection from: " + conn.getClientName());
+        log.info("=== Got a new Connection from: " + conn.getClientName());
 
         // 不断读取并处理客户端 Socket 连接中的数据流
         while (true) {
@@ -74,7 +74,7 @@ public class SocketHandler implements Callable<Object> {
             dataInputStream.close();
             dataOutputStream.close();
             socket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error occur when closing Socket/DataInputStream/DataOutputStream!", e);
         }
 

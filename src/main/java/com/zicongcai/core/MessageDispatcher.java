@@ -4,7 +4,6 @@ import com.zicongcai.logic.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * 消息分发器
  */
@@ -61,15 +60,23 @@ public class MessageDispatcher {
         switch (msgType) {
 
             case MessageType.MSG_PING:
-//                battleMessageHandler.pingMsg(conn, proto);
+//                battleMessageHandler.ping(conn, proto);
                 break;
 
             case MessageType.MSG_HEARTBEAT:
-                connectionMessageHandler.heartBeatMsg(conn, proto);
+                connectionMessageHandler.heartBeat(conn, proto);
                 break;
 
             case MessageType.MSG_REGISTER:
-                connectionMessageHandler.registerMsg(conn, proto);
+                connectionMessageHandler.register(conn, proto);
+                break;
+
+            case MessageType.MSG_LOGIN:
+                connectionMessageHandler.login(conn, proto);
+                break;
+
+            case MessageType.MSG_LOGOUT:
+                connectionMessageHandler.logout(conn, proto);
                 break;
 
             default:

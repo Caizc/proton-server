@@ -2,6 +2,7 @@ package com.zicongcai.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTimeUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,9 +20,10 @@ public class Connection {
      * Socket连接
      */
     private Socket socket;
-
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+
+    private NetworkManager networkManager;
 
     /**
      * 所属玩家对象
@@ -78,10 +80,40 @@ public class Connection {
         } catch (IOException e) {
             log.error("DataInputStream/DataOutputStream error!", e);
         }
+
+        this.networkManager = NetworkManager.getInstance();
+
+        this.lastTickTime = DateTimeUtils.currentTimeMillis();
     }
 
     public String getClientName() {
         return socket.getRemoteSocketAddress().toString();
     }
 
+    /**
+     * 关闭连接
+     */
+    public void close() {
+
+        // TODO: 连接关闭处理
+
+        log.warn("[关闭客户端连接] " + getClientName());
+
+        if (!socket.isClosed()) {
+            try {
+                dataInputStream.close();
+                dataOutputStream.close();
+                socket.close();
+            } catch (IOException e) {
+                log.error("Error occur when closing Socket/DataInputStream/DataOutputStream!", e);
+            }
+        }
+    }
+
+    /**
+     * 向客户端发送数据
+     */
+    public void send(Protocol proto) {
+        networkManager.sendData(this, proto);
+    }
 }

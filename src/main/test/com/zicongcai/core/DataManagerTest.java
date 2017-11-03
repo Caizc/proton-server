@@ -56,7 +56,7 @@ public class DataManagerTest {
 
     public void savePlayerTest() {
 
-        Player player = new Player();
+        Player player = new Player("kitty", null);
         PlayerData playerData = new PlayerData();
         playerData.score = 101;
 

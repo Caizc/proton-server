@@ -160,7 +160,7 @@ public class DataManager {
             log.error("用户ID[" + id + "]不存在或错误的密码！");
             return false;
         } else {
-            log.info("用户ID[" + id + "]密码校验通过");
+            log.info("用户[" + id + "]密码校验通过");
             return true;
         }
     }
@@ -186,7 +186,7 @@ public class DataManager {
         List<PlayerPo> list = playerDao.search(search);
 
         if (list == null || list.size() == 0) {
-            log.warn("用户ID[" + id + "]的角色数据为空！");
+            log.warn("用户[" + id + "]的角色数据为空！");
             return playerData;
         } else {
 
@@ -210,14 +210,19 @@ public class DataManager {
         String id = player.getId();
         PlayerData playerData = player.getData();
 
-        byte[] data = serializePlayerData(playerData);
+        try {
+            byte[] data = serializePlayerData(playerData);
 
-        PlayerPo playerPo = new PlayerPo();
-        playerPo.setId(id);
-        playerPo.setData(data);
+            PlayerPo playerPo = new PlayerPo();
+            playerPo.setId(id);
+            playerPo.setData(data);
 
-        playerDao.save(playerPo);
-        playerDao.flush();
+            playerDao.save(playerPo);
+            playerDao.flush();
+        } catch (Exception e) {
+            log.error("保存用户[" + id + "]的角色数据过程出错！", e);
+            return false;
+        }
 
         log.info("用户[" + id + "]的角色数据已保存");
 

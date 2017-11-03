@@ -13,9 +13,9 @@ public class BattleMessageHandler {
     private static final Log log = LogFactory.getLog(BattleMessageHandler.class);
 
     /**
-     * Ping消息
+     * Ping
      */
-    public void pingMsg(Connection conn, Protocol proto) {
+    public void ping(Connection conn, Protocol proto) {
         // TODO:
         log.info("[Ping] " + conn.getClientName());
     }

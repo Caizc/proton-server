@@ -11,4 +11,8 @@ public class MessageType {
 
     public static final String MSG_REGISTER = "Register";
 
+    public static final String MSG_LOGIN = "Login";
+
+    public static final String MSG_LOGOUT = "Logout";
+
 }
