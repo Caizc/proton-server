@@ -29,7 +29,7 @@ public class PlayerEventHandler {
      * 玩家登录
      */
     public void login(Player player) {
-        // nothing to do here.
+        // TODO: 暂时没有需要处理的事件
     }
 
     /**

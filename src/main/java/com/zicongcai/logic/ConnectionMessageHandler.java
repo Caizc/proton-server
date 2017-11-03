@@ -124,7 +124,8 @@ public class ConnectionMessageHandler {
         conn.setPlayer(new Player(id, conn));
         conn.getPlayer().setData(playerData);
 
-        // TODO: 触发用户登录事件
+        // 处理用户登录事件
+        MessageDispatcher.getInstance().playerEventHandler.login(conn.getPlayer());
 
         responseProto.addInt(0);
 

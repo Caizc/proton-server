@@ -73,8 +73,10 @@ public class SocketHandler implements Callable<Object> {
             log.error("Error occur when closing Socket/DataInputStream/DataOutputStream!", e);
         }
 
-        // FIXME: 返回值为 null 不好吧？
-        return null;
+        // 将客户端连接引用置空，以回收到连接池中重复使用
+        conn = null;
+
+        return true;
     }
 
     /**
