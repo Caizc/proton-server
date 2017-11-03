@@ -31,13 +31,9 @@ public class SocketHandler implements Callable<Object> {
 
     /**
      * 构造方法
-     *
-     * @param socket 接收到的客户端Socket连接
      */
-    public SocketHandler(Socket socket) {
-
-        // 构造客户端连接实例
-        this.conn = new Connection(socket);
+    public SocketHandler(Connection conn) {
+        this.conn = conn;
         this.socket = conn.getSocket();
         this.dataInputStream = conn.getDataInputStream();
         this.dataOutputStream = conn.getDataOutputStream();
@@ -53,7 +49,6 @@ public class SocketHandler implements Callable<Object> {
             try {
 
                 if (socket.isClosed()) {
-                    log.info("Connection [" + conn.getClientName() + "] has been CLOSED!");
                     break;
                 }
 

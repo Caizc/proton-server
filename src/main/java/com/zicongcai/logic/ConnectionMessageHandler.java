@@ -150,7 +150,10 @@ public class ConnectionMessageHandler {
             conn.close();
         } else {
             String id = conn.getPlayer().getId();
-            conn.getPlayer().logout();
+
+            // 处理用户登出事件
+            MessageDispatcher.getInstance().playerEventHandler.logout(conn.getPlayer());
+
             log.info("[用户登出成功] 用户名: [" + id + "]");
         }
     }

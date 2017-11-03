@@ -16,14 +16,14 @@ public class Connection {
 
     private static final Log log = LogFactory.getLog(Connection.class);
 
+    private NetworkManager networkManager;
+
     /**
      * Socket连接
      */
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-
-    private NetworkManager networkManager;
 
     /**
      * 所属玩家对象
@@ -72,6 +72,8 @@ public class Connection {
 
         super();
 
+        this.networkManager = NetworkManager.getInstance();
+
         this.socket = socket;
 
         try {
@@ -80,8 +82,6 @@ public class Connection {
         } catch (IOException e) {
             log.error("DataInputStream/DataOutputStream error!", e);
         }
-
-        this.networkManager = NetworkManager.getInstance();
 
         this.lastTickTime = DateTimeUtils.currentTimeMillis();
     }
@@ -108,6 +108,11 @@ public class Connection {
                 log.error("Error occur when closing Socket/DataInputStream/DataOutputStream!", e);
             }
         }
+
+        dataInputStream = null;
+        dataOutputStream = null;
+        socket = null;
+        player = null;
     }
 
     /**

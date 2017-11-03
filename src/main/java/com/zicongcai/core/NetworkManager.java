@@ -95,11 +95,19 @@ class SocketListener implements Callable<Object> {
 
         while (true) {
 
-            // 持续监听并接收客户端 Socket 连接
+            // 持续监听并接收客户端Socket连接
             Socket socket = serverSocket.accept();
 
-            // 在新的线程中处理客户端 Socket 连接
-            Executor.getInstance().submit(new SocketHandler(socket));
+            // 从连接池中获取一个客户端连接对象
+            Connection conn = ConnectionPool.getInstance().get(socket);
+
+            if (conn != null) {
+
+                // 在新的线程中处理客户端连接
+                Executor.getInstance().submit(new SocketHandler(conn));
+            } else {
+                continue;
+            }
         }
     }
 }

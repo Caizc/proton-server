@@ -9,15 +9,15 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MessageDispatcher {
 
+    public ConnectionMessageHandler connectionMessageHandler = new ConnectionMessageHandler();
+    public PlayerMessageHandler playerMessageHandler = new PlayerMessageHandler();
+    public PlayerEventHandler playerEventHandler = new PlayerEventHandler();
+    public BattleMessageHandler battleMessageHandler = new BattleMessageHandler();
+    public RoomMessageHandler roomMessageHandler = new RoomMessageHandler();
+
     private static final Log log = LogFactory.getLog(MessageDispatcher.class);
 
     private static MessageDispatcher instance;
-
-    private ConnectionMessageHandler connectionMessageHandler = new ConnectionMessageHandler();
-    private PlayerMessageHandler playerMessageHandler = new PlayerMessageHandler();
-    private PlayerEventHandler playerEventHandler = new PlayerEventHandler();
-    private BattleMessageHandler battleMessageHandler = new BattleMessageHandler();
-    private RoomMessageHandler roomMessageHandler = new RoomMessageHandler();
 
     /**
      * 不允许外部类使用构造方法获取该类的实例
