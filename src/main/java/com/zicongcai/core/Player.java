@@ -1,6 +1,7 @@
 package com.zicongcai.core;
 
 import com.zicongcai.logic.PlayerData;
+import com.zicongcai.logic.PlayerTempData;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,6 +15,8 @@ public class Player {
     private String id;
 
     private PlayerData data;
+
+    private PlayerTempData tempData;
 
     private Connection conn;
 
@@ -33,6 +36,14 @@ public class Player {
         this.data = data;
     }
 
+    public PlayerTempData getTempData() {
+        return tempData;
+    }
+
+    public void setTempData(PlayerTempData tempData) {
+        this.tempData = tempData;
+    }
+
     public Connection getConn() {
         return conn;
     }
@@ -47,6 +58,7 @@ public class Player {
     public Player(String id, Connection conn) {
         this.id = id;
         this.conn = conn;
+        this.tempData = new PlayerTempData();
     }
 
     /**

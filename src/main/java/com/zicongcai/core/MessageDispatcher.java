@@ -99,11 +99,29 @@ public class MessageDispatcher {
                 playerMessageHandler.updateInfo(conn.getPlayer(), proto);
                 break;
 
+            case MessageType.MSG_GETROOMLIST:
+                roomMessageHandler.getRoomList(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_GETROOMINFO:
+                roomMessageHandler.getRoomInfo(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_CREATEROOM:
+                roomMessageHandler.createRoom(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_ENTERROOM:
+                roomMessageHandler.enterRoom(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_LEAVEROOM:
+                roomMessageHandler.leaveRoom(conn.getPlayer(), proto);
+                break;
+
             default:
                 log.info("=== " + msgType);
                 break;
         }
-
     }
-
 }

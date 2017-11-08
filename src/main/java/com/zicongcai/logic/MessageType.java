@@ -55,4 +55,34 @@ public class MessageType {
      */
     public static final String MSG_GETACHIEVE = "GetAchieve";
 
+    /**
+     * 获取房间列表
+     */
+    public static final String MSG_GETROOMLIST = "GetRoomList";
+
+    /**
+     * 获取房间信息
+     */
+    public static final String MSG_GETROOMINFO = "GetRoomInfo";
+
+    /**
+     * 创建房间
+     */
+    public static final String MSG_CREATEROOM = "CreateRoom";
+
+    /**
+     * 进入房间
+     */
+    public static final String MSG_ENTERROOM = "EnterRoom";
+
+    /**
+     * 离开房间
+     */
+    public static final String MSG_LEAVEROOM = "LeaveRoom";
+
+    /**
+     * 开始战斗
+     */
+    public static final String MSG_FIGHT = "Fight";
+
 }
