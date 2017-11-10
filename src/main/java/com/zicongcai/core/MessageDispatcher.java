@@ -59,10 +59,6 @@ public class MessageDispatcher {
 
         switch (msgType) {
 
-            case MessageType.MSG_PING:
-                battleMessageHandler.ping(conn, proto);
-                break;
-
             case MessageType.MSG_HEARTBEAT:
                 connectionMessageHandler.heartBeat(conn, proto);
                 break;
@@ -117,6 +113,14 @@ public class MessageDispatcher {
 
             case MessageType.MSG_LEAVEROOM:
                 roomMessageHandler.leaveRoom(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_FIGHT:
+                battleMessageHandler.startFight(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_PING:
+                battleMessageHandler.ping(conn.getPlayer(), proto);
                 break;
 
             default:

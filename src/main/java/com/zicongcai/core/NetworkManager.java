@@ -100,7 +100,7 @@ public class NetworkManager {
 
             Connection conn = ConnectionPool.getInstance().get(i);
 
-            if (!conn.isInUse() || conn.getPlayer() == null) {
+            if (conn == null || !conn.isInUse() || conn.getPlayer() == null) {
                 continue;
             }
 
