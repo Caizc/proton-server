@@ -1,5 +1,6 @@
 package com.zicongcai.core;
 
+import com.zicongcai.thirdparty.SpringContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,22 +15,25 @@ public class ConnectionPool {
 
     private static ConnectionPool instance;
 
-    // TODO: 应修改为从配置文件读取
     /**
-     * 默认最大连接数
+     * 最大客户端连接数
      */
-    private static final int MAXIMUM = 50;
+    private int maxConnectionCount;
 
     /**
      * 客户端连接数组
      */
-    private Connection[] connArray = new Connection[MAXIMUM];
+    private Connection[] connArray;
 
     /**
      * 不允许外部类使用构造方法获取该类的实例
      */
     private ConnectionPool() {
         super();
+
+        ServerConfig serverConfig = SpringContextHolder.getBean("serverConfig");
+        this.maxConnectionCount = serverConfig.maxConnectionCount;
+        this.connArray = new Connection[maxConnectionCount];
     }
 
     /**
@@ -58,7 +62,7 @@ public class ConnectionPool {
     public Connection get(Socket socket) {
 
         // 遍历连接数组，寻找空闲的连接
-        for (int i = 0; i < MAXIMUM; i++) {
+        for (int i = 0; i < maxConnectionCount; i++) {
             if (connArray[i] == null || !connArray[i].isInUse()) {
                 connArray[i] = new Connection(socket);
                 return connArray[i];
@@ -87,5 +91,17 @@ public class ConnectionPool {
         }
 
         return null;
+    }
+
+    /**
+     * 根据连接索引获取连接对象
+     */
+    public Connection get(int index) {
+
+        if (connArray == null || index < 0 || index >= maxConnectionCount) {
+            return null;
+        }
+
+        return connArray[index];
     }
 }

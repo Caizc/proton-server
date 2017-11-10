@@ -26,7 +26,7 @@ public class SocketHandler implements Callable<Object> {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    // FIXME: 暂时先使用字节流协议
+    // FIXME: 暂时默认使用字节流协议
     private Protocol defaultProto = new ProtocolBytes();
 
     /**

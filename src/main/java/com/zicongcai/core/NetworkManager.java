@@ -1,5 +1,6 @@
 package com.zicongcai.core;
 
+import com.zicongcai.thirdparty.SpringContextHolder;
 import com.zicongcai.util.Executor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,10 +19,18 @@ public class NetworkManager {
     private static NetworkManager instance;
 
     /**
+     * 最大客户端连接数
+     */
+    private int maxConnectionCount;
+
+    /**
      * 不允许外部类使用构造方法获取该类的实例
      */
     private NetworkManager() {
         super();
+
+        ServerConfig serverConfig = SpringContextHolder.getBean("serverConfig");
+        this.maxConnectionCount = serverConfig.maxConnectionCount;
     }
 
     /**
@@ -75,6 +84,31 @@ public class NetworkManager {
             log.error("向 " + conn.getClientName() + " 发送数据过程出错！", e);
         }
     }
+
+    /**
+     * 向所有客户端广播消息
+     *
+     * @param proto 消息协议包
+     */
+    public void broadcast(Protocol proto) {
+
+        if (proto == null) {
+            return;
+        }
+
+        for (int i = 0; i < maxConnectionCount; i++) {
+
+            Connection conn = ConnectionPool.getInstance().get(i);
+
+            if (!conn.isInUse() || conn.getPlayer() == null) {
+                continue;
+            }
+
+            sendData(conn, proto);
+        }
+
+        log.info("向所有客户端广播消息: [" + proto.getDesc() + "]");
+    }
 }
 
 /**
@@ -82,11 +116,22 @@ public class NetworkManager {
  */
 class SocketListener implements Callable<Object> {
 
-    // TODO: 服务端 Socket 监听的 IP 和端口
-    //    private static final String ip = "192.168.1.187";
-    private static final int port = 9527;
+    /**
+     * Socket监听端口
+     */
+    private int port;
 
     private ServerSocket serverSocket = null;
+
+    /**
+     * 构造方法
+     */
+    public SocketListener() {
+        super();
+
+        ServerConfig serverConfig = SpringContextHolder.getBean("serverConfig");
+        this.port = serverConfig.port;
+    }
 
     @Override
     public Boolean call() throws Exception {

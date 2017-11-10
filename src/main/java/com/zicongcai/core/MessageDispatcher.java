@@ -55,7 +55,7 @@ public class MessageDispatcher {
      */
     public void deliverMessage(String msgType, Connection conn, Protocol proto) {
 
-        // TODO: 为简单起见，暂时使用 Switch 语句实现消息分发，后续改为监听者模式会更好一些
+        // FIXME: 为简单起见，暂时使用 Switch 语句实现消息分发，后续改为监听者模式会更好一些
 
         switch (msgType) {
 
@@ -120,7 +120,7 @@ public class MessageDispatcher {
                 break;
 
             default:
-                log.info("=== " + msgType);
+                log.info("=== [未处理的消息类型]: " + msgType);
                 break;
         }
     }

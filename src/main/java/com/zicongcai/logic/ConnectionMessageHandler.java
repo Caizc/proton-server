@@ -108,8 +108,7 @@ public class ConnectionMessageHandler {
         // 如果用户已经登录，则需要将线上的用户‘踢下线’，再执行后续的操作
         MessageDispatcher.getInstance().playerEventHandler.kickOffTheLine(id);
 
-        // TODO: GO ON
-
+        // 获取玩家数据
         PlayerData playerData = dataManager.getPlayerData(id);
 
         if (playerData == null) {
