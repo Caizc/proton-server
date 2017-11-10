@@ -19,7 +19,7 @@ public class PlayerMessageHandler {
     public void getAchieve(Player player, Protocol proto) {
 
         if (player == null || player.getData() == null) {
-            log.error("[" + MessageType.MSG_GETACHIEVE + "] Player or PlayerData is null!");
+            log.error("[获取成就] Player or PlayerData is null!");
             return;
         }
 
@@ -32,7 +32,7 @@ public class PlayerMessageHandler {
         // 向玩家发送回应数据
         player.send(responseProto);
 
-        log.info("[" + MessageType.MSG_GETACHIEVE + "] [" + player.getId() + "] " + player.getData().win + ":" + player.getData().lost);
+        log.info("[获取成就] [" + player.getId() + "] " + player.getData().win + ":" + player.getData().lost);
     }
 
     /**
@@ -48,7 +48,7 @@ public class PlayerMessageHandler {
     public void getScore(Player player, Protocol proto) {
 
         if (player == null || player.getData() == null) {
-            log.error("[" + MessageType.MSG_GETSCORE + "] Player or PlayerData is null!");
+            log.error("[获取分数] Player or PlayerData is null!");
             return;
         }
 
@@ -60,7 +60,7 @@ public class PlayerMessageHandler {
         // 向玩家发送回应数据
         player.send(responseProto);
 
-        log.info("[" + MessageType.MSG_GETSCORE + "] [" + player.getId() + "] score: " + player.getData().score);
+        log.info("[获取分数] [" + player.getId() + "] score: " + player.getData().score);
     }
 
     /**
@@ -79,7 +79,7 @@ public class PlayerMessageHandler {
 
         player.getData().score += 1;
 
-        log.info("[" + MessageType.MSG_ADDSCORE + "] [" + player.getId() + "] score: " + player.getData().score);
+        log.info("[增加分数] [" + player.getId() + "] score: " + player.getData().score);
     }
 
     /**

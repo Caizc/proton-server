@@ -65,15 +65,10 @@ public class SocketHandler implements Callable<Object> {
             }
         }
 
-        try {
-            dataInputStream.close();
-            dataOutputStream.close();
-            socket.close();
-        } catch (Exception e) {
-            log.error("Error occur when closing Socket/DataInputStream/DataOutputStream!", e);
-        }
+        // 关闭连接
+        conn.close();
 
-        // 将客户端连接引用置空，以回收到连接池中重复使用
+        // 将客户端连接引用置空
         conn = null;
 
         return true;

@@ -58,15 +58,33 @@ public class ConnectionPool {
     public Connection get(Socket socket) {
 
         // 遍历连接数组，寻找空闲的连接
-        for (Connection conn : connArray) {
-            if (conn == null) {
-                conn = new Connection(socket);
-                return conn;
+        for (int i = 0; i < MAXIMUM; i++) {
+            if (connArray[i] == null || !connArray[i].isInUse()) {
+                connArray[i] = new Connection(socket);
+                return connArray[i];
+            } else {
+                continue;
             }
         }
 
         // 如果遍历完数组后无可用连接，打印警告信息
         log.error("客户端连接已达最大限额，不再响应新的连接！");
+
+        return null;
+    }
+
+    /**
+     * 根据玩家ID获取相应连接
+     */
+    public Connection get(String playerId) {
+
+        for (Connection conn : connArray) {
+            if (conn == null || !conn.isInUse() || conn.getPlayer() == null) {
+                continue;
+            } else if (conn.getPlayer().getId().equals(playerId)) {
+                return conn;
+            }
+        }
 
         return null;
     }

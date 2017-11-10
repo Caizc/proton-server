@@ -125,7 +125,7 @@ public class Room {
     }
 
     /**
-     * 广播消息
+     * 向房间中的所有玩家广播消息
      */
     public void broadcast(Protocol proto) {
 
@@ -239,7 +239,14 @@ public class Room {
      * 中途退出战斗
      */
     public void quitFight(Player player) {
+
         // TODO: 中途退出战斗逻辑未完成
+
+        // TODO: 从战斗场景中移除玩家
+
+        // 增加玩家战败次数
+
+        // 执行胜负判断
     }
 
     /**

@@ -1,8 +1,6 @@
 package com.zicongcai.logic;
 
-import com.zicongcai.core.DataManager;
-import com.zicongcai.core.Player;
-import com.zicongcai.core.Protocol;
+import com.zicongcai.core.*;
 import com.zicongcai.thirdparty.SpringContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,8 +26,15 @@ public class PlayerEventHandler {
     /**
      * 玩家登录
      */
-    public void login(Player player) {
-        // TODO: 暂时没有需要处理的事件
+    public boolean login(Player player) {
+
+        if (player == null) {
+            return false;
+        }
+
+        log.info("[用户登录成功] 用户名: [" + player.getId() + "]");
+
+        return true;
     }
 
     /**
@@ -37,24 +42,61 @@ public class PlayerEventHandler {
      */
     public boolean logout(Player player) {
 
-        // TODO: 处理登出事件，如退出房间、结束战斗等
+        if (player == null) {
+            return false;
+        }
+
+        // 如果玩家正在房间中
+        if (player.getTempData().getStatus() == PlayerTempData.Status.ROOM || player.getTempData().getStatus() == PlayerTempData.Status.FIGHT) {
+
+            Room room = player.getTempData().getRoom();
+
+            // 如果玩家正在战斗中，需要先退出战斗
+            if (player.getTempData().getStatus() == PlayerTempData.Status.FIGHT) {
+                room.quitFight(player);
+            }
+
+            // 离开房间
+            RoomManager.getInstance().leaveRoom(player);
+
+            // 如果房间还有玩家的话，向房间中的所有玩家广播新的房间信息
+            if (room != null && room.getPlayers().size() != 0) {
+                room.broadcast(room.getRoomInfo());
+            }
+        }
 
         // 保存角色数据
         if (!dataManager.savePlayer(player)) {
             return false;
         }
 
-        // 关闭连接，移除引用
-        player.getConn().close();
+        // 移除引用
         player.setConn(null);
+
+        log.info("[用户登出成功] 用户名: [" + player.getId() + "]");
 
         return true;
     }
 
     /**
-     * 将玩家踢下线
+     * 将重复登录的（旧）用户踢下线
      */
-    public void kickOffTheLine(Player player, Protocol proto) {
-        // TODO: 踢下线，未实现
+    public void kickOffTheLine(String playerId) {
+
+        Connection conn = ConnectionPool.getInstance().get(playerId);
+
+        // 连接为空，表示没有重复登录的玩家；否则表示该用户正在线上，需要将其踢下线
+        if (conn == null) {
+            return;
+        } else {
+
+            synchronized (conn.getPlayer()) {
+
+                // 向客户端发送用户登出消息，并处理用户登出的相应事件
+                MessageDispatcher.getInstance().connectionMessageHandler.logout(conn);
+            }
+
+            log.info("[重复用户踢下线] 用户名: [" + playerId + "]");
+        }
     }
 }

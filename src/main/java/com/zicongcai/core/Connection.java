@@ -16,6 +16,11 @@ public class Connection {
 
     private static final Log log = LogFactory.getLog(Connection.class);
 
+    /**
+     * 本连接是否正使用中
+     */
+    private boolean inUse;
+
     private NetworkManager networkManager;
 
     /**
@@ -34,6 +39,14 @@ public class Connection {
      * 最后心跳时间
      */
     private long lastTickTime;
+
+    public boolean isInUse() {
+        return inUse;
+    }
+
+    public void setInUse(boolean inUse) {
+        this.inUse = inUse;
+    }
 
     public Socket getSocket() {
         return socket;
@@ -72,6 +85,8 @@ public class Connection {
 
         super();
 
+        this.inUse = true;
+
         this.networkManager = NetworkManager.getInstance();
 
         this.socket = socket;
@@ -95,7 +110,8 @@ public class Connection {
      */
     public void close() {
 
-        // TODO: 连接关闭处理
+        // 处理用户登出
+        MessageDispatcher.getInstance().playerEventHandler.logout(player);
 
         log.warn("[关闭客户端连接] " + getClientName());
 
@@ -113,6 +129,8 @@ public class Connection {
         dataOutputStream = null;
         socket = null;
         player = null;
+
+        inUse = false;
     }
 
     /**

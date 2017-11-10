@@ -105,7 +105,10 @@ public class ConnectionMessageHandler {
             return;
         }
 
-        // TODO: 如果用户已经登录，则需要将线上的用户‘踢下线’，再执行后续的操作
+        // 如果用户已经登录，则需要将线上的用户‘踢下线’，再执行后续的操作
+        MessageDispatcher.getInstance().playerEventHandler.kickOffTheLine(id);
+
+        // TODO: GO ON
 
         PlayerData playerData = dataManager.getPlayerData(id);
 
@@ -129,10 +132,8 @@ public class ConnectionMessageHandler {
 
         responseProto.addInt(0);
 
-        // 向客户端发送回应消息
+        // 向客户端发送用户登录回应消息
         conn.send(responseProto);
-
-        log.info("[用户登录成功] 用户名: [" + id + "]");
     }
 
     /**
@@ -145,17 +146,17 @@ public class ConnectionMessageHandler {
         responseProto.addString(MessageType.MSG_LOGOUT);
         responseProto.addInt(0);
 
+        // 向客户端发送用户登出回应消息
         conn.send(responseProto);
 
-        if (conn.getPlayer() == null) {
-            conn.close();
-        } else {
-            String id = conn.getPlayer().getId();
+        // 关闭连接，处理用户登出事件
+        conn.close();
+    }
 
-            // 处理用户登出事件
-            MessageDispatcher.getInstance().playerEventHandler.logout(conn.getPlayer());
-
-            log.info("[用户登出成功] 用户名: [" + id + "]");
-        }
+    /**
+     * 用户登出（服务端主动调用）
+     */
+    public void logout(Connection conn) {
+        logout(conn, null);
     }
 }
