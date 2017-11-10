@@ -68,6 +68,11 @@ public class BattleMessageHandler {
      */
     public void trueSync(Player player, Protocol proto) {
 
+        if (player.getTempData().getStatus().equals(PlayerTempData.Status.FIGHT)) {
+
+            // 仅当玩家处于战斗状态时，将TrueSync数据包原封不动的广播到同一个房间中的所有玩家
+            player.getTempData().getRoom().broadcast(proto);
+        }
     }
 
     /**

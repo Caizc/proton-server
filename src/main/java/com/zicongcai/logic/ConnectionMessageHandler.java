@@ -31,7 +31,7 @@ public class ConnectionMessageHandler {
 
         conn.setLastTickTime(DateTimeUtils.currentTimeMillis());
 
-        log.info("[更新心跳时间] " + conn.getClientName());
+        log.info("[更新心跳时间] [" + conn.getPlayer().getId() + "] " + conn.getClientName());
     }
 
     /**
