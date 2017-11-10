@@ -83,6 +83,15 @@ public class MessageType {
     /**
      * 开始战斗
      */
+    public static final String MSG_STARTFIGHT = "StartFight";
+
+    /**
+     * 战斗
+     */
     public static final String MSG_FIGHT = "Fight";
 
+    /**
+     * TrueSync数据
+     */
+    public static final String MSG_TRUESYNC = "TrueSyncData";
 }

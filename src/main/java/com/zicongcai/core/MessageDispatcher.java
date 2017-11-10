@@ -115,12 +115,16 @@ public class MessageDispatcher {
                 roomMessageHandler.leaveRoom(conn.getPlayer(), proto);
                 break;
 
-            case MessageType.MSG_FIGHT:
+            case MessageType.MSG_STARTFIGHT:
                 battleMessageHandler.startFight(conn.getPlayer(), proto);
                 break;
 
             case MessageType.MSG_PING:
                 battleMessageHandler.ping(conn.getPlayer(), proto);
+                break;
+
+            case MessageType.MSG_TRUESYNC:
+                battleMessageHandler.trueSync(conn.getPlayer(), proto);
                 break;
 
             default:

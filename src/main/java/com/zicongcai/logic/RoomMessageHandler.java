@@ -29,7 +29,7 @@ public class RoomMessageHandler {
 
         player.send(roomManager.getRoomList());
 
-        log.info("[获取房间列表] " + player.getId());
+        log.info("[获取房间列表] [" + player.getId() + "]");
     }
 
     /**
@@ -43,7 +43,7 @@ public class RoomMessageHandler {
         // 仅当玩家不在房间和战斗中时，才可以创建房间
         if (player.getTempData().getStatus() != PlayerTempData.Status.NONE) {
 
-            log.error("[创建房间失败] " + player.getId());
+            log.error("[创建房间失败] [" + player.getId() + "]");
 
             responseProto.addInt(-1);
             player.send(responseProto);
@@ -55,7 +55,7 @@ public class RoomMessageHandler {
         responseProto.addInt(0);
         player.send(responseProto);
 
-        log.info("[创建房间成功] " + player.getId());
+        log.info("[创建房间成功] [" + player.getId() + "]");
     }
 
     /**
@@ -79,7 +79,7 @@ public class RoomMessageHandler {
 
         if (roomIndex < 0 || roomIndex >= roomManager.getRooms().size()) {
 
-            log.error("[房间编号错误] " + player.getId());
+            log.error("[房间编号错误] [" + player.getId() + "]");
 
             responseProto.addInt(-1);
             player.send(responseProto);
@@ -91,7 +91,7 @@ public class RoomMessageHandler {
 
         if (room.getStatus() != Room.Status.PREPARE) {
 
-            log.error("[房间未就绪] " + player.getId());
+            log.error("[房间未就绪] [" + player.getId() + "]");
 
             responseProto.addInt(-1);
             player.send(responseProto);
@@ -121,7 +121,7 @@ public class RoomMessageHandler {
 
         if (player.getTempData().getStatus() != PlayerTempData.Status.ROOM) {
 
-            log.error("[获取房间信息失败] " + player.getId());
+            log.error("[获取房间信息失败] [" + player.getId() + "]");
 
             return;
         }
@@ -140,7 +140,7 @@ public class RoomMessageHandler {
 
         if (player.getTempData().getStatus() != PlayerTempData.Status.ROOM) {
 
-            log.error("[离开房间失败] " + player.getId());
+            log.error("[离开房间失败] [" + player.getId() + "]");
 
             responseProto.addInt(-1);
             player.send(responseProto);
@@ -159,6 +159,6 @@ public class RoomMessageHandler {
             room.broadcast(room.getRoomInfo());
         }
 
-        log.info("[离开房间] " + player.getId());
+        log.info("[离开房间] [" + player.getId() + "]");
     }
 }

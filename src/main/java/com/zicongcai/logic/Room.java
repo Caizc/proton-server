@@ -177,6 +177,7 @@ public class Room {
             }
         }
 
+        // 双方阵营至少各有一人才能开战
         if (counter1 < 1 || counter2 < 1) {
             return false;
         }
@@ -185,14 +186,17 @@ public class Room {
     }
 
     /**
-     * 开始战斗
+     * 执行战斗
      */
-    public void startFight() {
+    public void fight() {
 
         status = Status.FIGHT;
 
         ProtocolBytes proto = new ProtocolBytes();
         proto.addString(MessageType.MSG_FIGHT);
+
+        StringBuffer logSb = new StringBuffer();
+        logSb.append("[战斗开始] ");
 
         synchronized (players) {
 
@@ -207,11 +211,15 @@ public class Room {
                 proto.addInt(1);
 
                 player.getTempData().setStatus(PlayerTempData.Status.FIGHT);
+
+                logSb.append("[").append(player.getId()).append("]");
             }
         }
 
-        // 向房间中的所有玩家广播开始战斗消息
+        // 向房间中的所有玩家广播执行战斗消息
         broadcast(proto);
+
+        log.info(logSb.toString());
     }
 
     /**
