@@ -30,7 +30,7 @@ public class Protocol {
     }
 
     /**
-     * 打包成协议消息包（在编码后的字节数组添加一个4字节的int，描述消息的总长度）
+     * 打包成协议消息包（在编码后的字节数组前面添加一个4字节的int，描述消息的总长度）
      *
      * @return 消息包的字节数组
      */
@@ -55,7 +55,7 @@ public class Protocol {
     /**
      * 获取协议描述
      *
-     * @return
+     * @return 协议描述
      */
     public String getDesc() {
         return "";

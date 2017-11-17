@@ -16,7 +16,7 @@ public class PlayerMessageHandler {
     /**
      * 获取成就
      */
-    public void getAchieve(Player player, Protocol proto) {
+    public void getAchievement(Player player, Protocol proto) {
 
         if (player == null || player.getData() == null) {
             log.error("[获取成就] Player or PlayerData is null!");
@@ -25,7 +25,7 @@ public class PlayerMessageHandler {
 
         // 回应消息
         ProtocolBytes responseProto = new ProtocolBytes();
-        responseProto.addString(MessageType.MSG_GETACHIEVE);
+        responseProto.addString(MessageType.MSG_GETACHIEVEMENT);
         responseProto.addInt(player.getData().win);
         responseProto.addInt(player.getData().lost);
 

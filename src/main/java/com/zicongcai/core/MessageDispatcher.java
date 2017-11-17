@@ -75,8 +75,8 @@ public class MessageDispatcher {
                 connectionMessageHandler.logout(conn, proto);
                 break;
 
-            case MessageType.MSG_GETACHIEVE:
-                playerMessageHandler.getAchieve(conn.getPlayer(), proto);
+            case MessageType.MSG_GETACHIEVEMENT:
+                playerMessageHandler.getAchievement(conn.getPlayer(), proto);
                 break;
 
             case MessageType.MSG_GETLIST:

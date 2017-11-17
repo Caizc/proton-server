@@ -53,7 +53,7 @@ public class MessageType {
     /**
      * 获取成就
      */
-    public static final String MSG_GETACHIEVE = "GetAchieve";
+    public static final String MSG_GETACHIEVEMENT = "GetAchievement";
 
     /**
      * 获取房间列表
