@@ -44,7 +44,7 @@ public class HeartbeatJob implements Job {
             return;
         }
 
-        log.info("[心跳检测] 定时任务执行中...");
+        // log.info("[心跳检测] 定时任务执行中...");
 
         for (int i = 0; i < maxConnectionCount; i++) {
 
@@ -65,6 +65,6 @@ public class HeartbeatJob implements Job {
             }
         }
 
-        log.info("[心跳检测] 定时任务执行完毕");
+        // log.info("[心跳检测] 定时任务执行完毕");
     }
 }
