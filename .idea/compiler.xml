@@ -9,8 +9,8 @@
         <module name="proton-server" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="proton-server" target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="proton-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

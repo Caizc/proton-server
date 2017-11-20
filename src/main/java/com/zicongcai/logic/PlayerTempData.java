@@ -11,7 +11,7 @@ public class PlayerTempData {
     public enum Status {
         NONE,
         ROOM,
-        FIGHT
+        FIGHTING
     }
 
     /**

@@ -21,7 +21,7 @@ public class Room {
     public enum Status {
 
         PREPARE(1),
-        FIGHT(2);
+        FIGHTING(2);
 
         private int value;
 
@@ -190,7 +190,7 @@ public class Room {
      */
     public void fight() {
 
-        status = Status.FIGHT;
+        status = Status.FIGHTING;
 
         ProtocolBytes proto = new ProtocolBytes();
         proto.addString(MessageType.MSG_FIGHT);
@@ -210,7 +210,7 @@ public class Room {
                 // FIXME: 这个协议需要修改一下
                 proto.addInt(1);
 
-                player.getTempData().setStatus(PlayerTempData.Status.FIGHT);
+                player.getTempData().setStatus(PlayerTempData.Status.FIGHTING);
 
                 logSb.append("[").append(player.getId()).append("]");
             }
@@ -227,7 +227,7 @@ public class Room {
      */
     private int isWin() {
 
-        if (status != Status.FIGHT) {
+        if (status != Status.FIGHTING) {
             return 0;
         }
 

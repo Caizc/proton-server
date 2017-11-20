@@ -47,12 +47,12 @@ public class PlayerEventHandler {
         }
 
         // 如果玩家正在房间中
-        if (player.getTempData().getStatus() == PlayerTempData.Status.ROOM || player.getTempData().getStatus() == PlayerTempData.Status.FIGHT) {
+        if (player.getTempData().getStatus() == PlayerTempData.Status.ROOM || player.getTempData().getStatus() == PlayerTempData.Status.FIGHTING) {
 
             Room room = player.getTempData().getRoom();
 
             // 如果玩家正在战斗中，需要先退出战斗
-            if (player.getTempData().getStatus() == PlayerTempData.Status.FIGHT) {
+            if (player.getTempData().getStatus() == PlayerTempData.Status.FIGHTING) {
                 room.quitFight(player);
             }
 
