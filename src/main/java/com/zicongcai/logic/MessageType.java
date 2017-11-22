@@ -93,5 +93,5 @@ public class MessageType {
     /**
      * TrueSync数据
      */
-    public static final String MSG_TRUESYNC = "TrueSyncData";
+    public static final String MSG_TRUESYNC = "TrueSync";
 }

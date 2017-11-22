@@ -204,11 +204,10 @@ public class Room {
 
             for (Player player : players.values()) {
 
+                // FIXME: 这个‘战斗开始’协议需要修改一下，可以在协议中包含战斗初始化信息
                 proto.addString(player.getId());
                 proto.addInt(player.getTempData().getTeam());
-
-                // FIXME: 这个协议需要修改一下
-                proto.addInt(1);
+                proto.addInt(0);
 
                 player.getTempData().setStatus(PlayerTempData.Status.FIGHTING);
 
